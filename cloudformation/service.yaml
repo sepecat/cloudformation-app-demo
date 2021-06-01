@@ -9,12 +9,25 @@ Parameters:
                  to locate and reference resources created by that stack.
   ServiceName:
     Type: String
-    Default: nginx
+    Default: django
     Description: A name for the service
-  ImageUrl:
+  AppContainerName:
+    Type: String
+    Default: django
+    Description: A name for the app container
+  AppImageUrl:
+    Type: String
+    Default: sepecat/hello-django:latest
+    Description: The url of a docker image that contains the application process that
+                 will handle the traffic for this service
+  WebContainerName:
     Type: String
     Default: nginx
-    Description: The url of a docker image that contains the application process that
+    Description: A name for the web server container
+  WebImageUrl:
+    Type: String
+    Default: sepecat/hello-nginx:latest
+    Description: The url of a docker image that contains the web server process that
                  will handle the traffic for this service
   ContainerPort:
     Type: Number
@@ -75,12 +88,25 @@ Resources:
           - !Ref 'Role'
           - !Ref "AWS::NoValue"
       ContainerDefinitions:
-        - Name: !Ref 'ServiceName'
+        - Name: !Ref 'AppContainerName'
           Cpu: !Ref 'ContainerCpu'
           Memory: !Ref 'ContainerMemory'
-          Image: !Ref 'ImageUrl'
+          Image: !Ref 'AppImageUrl'
+          Essential: true
+          MountPoints:
+            - ContainerPath: "/home/ubuntu/hello_django/run"
+              ReadOnly: false
+              SourceVolume: "socket_volume"
+        - Name: !Ref 'WebContainerName'
+          Cpu: !Ref 'ContainerCpu'
+          Memory: !Ref 'ContainerMemory'
+          Image: !Ref 'WebImageUrl'
+          Essential: true
           PortMappings:
             - ContainerPort: !Ref 'ContainerPort'
+          VolumesFrom:
+            ReadOnly: false
+            SourceContainer: !Ref 'AppContainerName'
 
   # The service. The service is a resource which allows you to run multiple
   # copies of a type of task, and gather up their logs and metrics, as well
