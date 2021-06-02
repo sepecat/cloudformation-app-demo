@@ -17,7 +17,7 @@ Parameters:
     Description: A name for the app container
   AppImageUrl:
     Type: String
-    Default: sepecat/hello-django:latest
+    Default: 'sepecat/hello-django:latest'
     Description: The url of a docker image that contains the application process that
                  will handle the traffic for this service
   WebContainerName:
@@ -26,20 +26,28 @@ Parameters:
     Description: A name for the web server container
   WebImageUrl:
     Type: String
-    Default: sepecat/hello-nginx:latest
+    Default: 'sepecat/hello-nginx:latest'
     Description: The url of a docker image that contains the web server process that
                  will handle the traffic for this service
+  TaskCpu:
+    Type: Number
+    Default: 256
+    Description: How much CPU to give the task. 1024 is 1 CPU
+  TaskMemory:
+    Type: Number
+    Default: 512
+    Description: How much memory in megabytes to give the task
   ContainerPort:
     Type: Number
     Default: 80
     Description: What port number the application inside the docker container is binding to
   ContainerCpu:
     Type: Number
-    Default: 256
+    Default: 128
     Description: How much CPU to give the container. 1024 is 1 CPU
   ContainerMemory:
     Type: Number
-    Default: 512
+    Default: 256
     Description: How much memory in megabytes to give the container
   Path:
     Type: String
@@ -74,8 +82,8 @@ Resources:
     Type: AWS::ECS::TaskDefinition
     Properties:
       Family: !Ref 'ServiceName'
-      Cpu: !Ref 'ContainerCpu'
-      Memory: !Ref 'ContainerMemory'
+      Cpu: !Ref 'TaskCpu'
+      Memory: !Ref 'TaskMemory'
       NetworkMode: awsvpc
       RequiresCompatibilities:
         - FARGATE
@@ -94,9 +102,9 @@ Resources:
           Image: !Ref 'AppImageUrl'
           Essential: true
           MountPoints:
-            - ContainerPath: "/home/ubuntu/hello_django/run"
+            - ContainerPath: '/home/ubuntu/hello_django/run'
               ReadOnly: false
-              SourceVolume: "socket_volume"
+              SourceVolume: 'socket_volume'
         - Name: !Ref 'WebContainerName'
           Cpu: !Ref 'ContainerCpu'
           Memory: !Ref 'ContainerMemory'
@@ -105,8 +113,13 @@ Resources:
           PortMappings:
             - ContainerPort: !Ref 'ContainerPort'
           VolumesFrom:
-            ReadOnly: false
-            SourceContainer: !Ref 'AppContainerName'
+            - ReadOnly: false
+              SourceContainer: !Ref 'AppContainerName'
+      Volumes:
+        - Name: 'socket_volume'
+      EphemeralStorage:
+        # AWS enforced minimum 21GiB
+        SizeInGiB: 21
 
   # The service. The service is a resource which allows you to run multiple
   # copies of a type of task, and gather up their logs and metrics, as well
@@ -137,7 +150,7 @@ Resources:
                 !Join [':', [!Ref 'StackName', 'PrivateSubnetTwo']]
       TaskDefinition: !Ref 'TaskDefinition'
       LoadBalancers:
-        - ContainerName: !Ref 'ServiceName'
+        - ContainerName: !Ref 'WebContainerName'
           ContainerPort: !Ref 'ContainerPort'
           TargetGroupArn: !Ref 'TargetGroup'
 
