@@ -101,10 +101,6 @@ Resources:
           Memory: !Ref 'ContainerMemory'
           Image: !Ref 'AppImageUrl'
           Essential: true
-          MountPoints:
-            - ContainerPath: '/home/ubuntu/hello_django/run'
-              ReadOnly: false
-              SourceVolume: 'socket_volume'
         - Name: !Ref 'WebContainerName'
           Cpu: !Ref 'ContainerCpu'
           Memory: !Ref 'ContainerMemory'
@@ -118,11 +114,6 @@ Resources:
           VolumesFrom:
             - ReadOnly: false
               SourceContainer: !Ref 'AppContainerName'
-      Volumes:
-        - Name: 'socket_volume'
-      EphemeralStorage:
-        # AWS enforced minimum 21GiB
-        SizeInGiB: 21
 
   # The service. The service is a resource which allows you to run multiple
   # copies of a type of task, and gather up their logs and metrics, as well
