@@ -109,6 +109,9 @@ Resources:
           Cpu: !Ref 'ContainerCpu'
           Memory: !Ref 'ContainerMemory'
           Image: !Ref 'WebImageUrl'
+          DependsOn:
+            - Condition: 'START'
+              ContainerName: !Ref 'AppContainerName'
           Essential: true
           PortMappings:
             - ContainerPort: !Ref 'ContainerPort'
@@ -148,6 +151,7 @@ Resources:
                 !Join [':', [!Ref 'StackName', 'PrivateSubnetOne']]
             - Fn::ImportValue:
                 !Join [':', [!Ref 'StackName', 'PrivateSubnetTwo']]
+      PlatformVersion: 'LATEST'
       TaskDefinition: !Ref 'TaskDefinition'
       LoadBalancers:
         - ContainerName: !Ref 'WebContainerName'
@@ -162,10 +166,10 @@ Resources:
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      HealthCheckIntervalSeconds: 6
+      HealthCheckIntervalSeconds: 300
       HealthCheckPath: /
       HealthCheckProtocol: HTTP
-      HealthCheckTimeoutSeconds: 5
+      HealthCheckTimeoutSeconds: 30
       HealthyThresholdCount: 2
       TargetType: ip
       Name: !Ref 'ServiceName'
