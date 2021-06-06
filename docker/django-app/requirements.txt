@@ -1,0 +1,6 @@
+Django
+asgiref
+gunicorn
+pytz
+setproctitle
+sqlparse
