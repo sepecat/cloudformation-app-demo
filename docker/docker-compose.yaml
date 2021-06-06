@@ -4,6 +4,8 @@ version: "3.9"
 services:
   app:
     image: sepecat/hello-django
+    ports:
+      - "8000:8000"
   web:
     image: sepecat/hello-nginx
     volumes_from:
