@@ -1,0 +1,16 @@
+---
+version: "3.9"
+
+services:
+  app:
+    image: "sepecat/django-app:demo"
+    ports:
+      - "8000:8000"
+  web:
+    image: "sepecat/django-nginx:demo"
+    volumes_from:
+      - app:rw
+    ports:
+      - "80:80"
+    depends_on:
+      - app
