@@ -1,2 +1,9 @@
+# HFS
+*.DS_Store
+
+# Python
 *.pyc
 **/__pycache__
+
+# SQLite
+db.sqlite3
