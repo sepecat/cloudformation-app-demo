@@ -4,21 +4,29 @@ from django.db import models
 from django.utils import timezone
 
 
-class Question(models.Model):
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published')
+class Country(models.Model):
+    name_text = models.CharField(max_length=200, primary_key=True)
+    last_changed_date = models.DateTimeField('date changed', default=timezone.now)
 
     def __str__(self):
-        return str(self.question_text)
+        return str(self.name_text)
 
-    def was_published_recently(self):
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+    def recently_updated(self):
+        return self.last_changed_date >= timezone.now() - datetime.timedelta(days=1)
 
 
-class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
+class CountryRestriction(models.Model):
+    restricting_country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    name_text = models.CharField(max_length=200, null=True)
+    last_changed_date = models.DateTimeField('date changed', default=timezone.now)
+    allow_unvaccinated = models.BooleanField(default=True)
+    banned = models.BooleanField(default=False)
+    restricted = models.BooleanField(default=False)
+    quarantine_days = models.IntegerField(default=0)
+    restrictions_text = models.TextField()
 
     def __str__(self):
-        return str(self.choice_text)
+        return str(self.name_text)
+
+    def recently_updated(self):
+        return self.last_changed_date >= timezone.now() - datetime.timedelta(days=1)

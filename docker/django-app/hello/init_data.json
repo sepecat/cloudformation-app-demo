@@ -1,0 +1,37 @@
+[
+    {
+        "model": "travel.country",
+        "fields": {
+            "name_text": "United States of America"
+        }
+    },
+    {
+        "model": "travel.country",
+        "fields": {
+            "name_text": "Canada"
+        }
+    },
+    {
+        "model": "travel.countryrestriction",
+        "fields": {
+            "restricting_country": "United States of America",
+            "restrictions_text": "Travelers from selected countries who do not have a travel history in selected countries during the 14 days prior to their arrival are allowed to enter the United States.\n\nDetails and exemptions\n\nThe entry restriction does not apply to:\n-American citizens;\n-Legal permanent residents;\n-Certain family members of U.S. citizens or lawful permanent residents including; spouses, children (under the age of 21), parents (provided that his/her U.S. citizen or lawful permanent resident child is unmarried and under the age of 21), and siblings (provided that both the sibling and the U.S. citizen or lawful permanent resident are unmarried and under the age of 21);\n-Investors, treaty traders, academics, and students from the Schengen Area countries, Ireland, and the United Kingdom with valid visas.\n\nFor full details and exemptions, see\n<a href='https://www.cdc.gov/coronavirus/2019-ncov/travelers/from-other-countries.html'>Centers for Disease Control and Prevention</a>"
+        }
+    },
+    {
+        "model": "travel.countryrestriction",
+        "fields": {
+            "restricting_country": "Canada",
+            "name_text": "United States of America",
+            "restrictions_text": "Enjoy beautiful Canada any way you like!"
+        }
+    },
+    {
+        "model": "travel.countryrestriction",
+        "fields": {
+            "restricting_country": "Canada",            
+            "banned": true,
+            "restrictions_text": "Most international travelers are not allowed to enter Canada. All scheduled international commercial passenger flights must land at one of Canada’s four largest airports: Montreal-Trudeau International Airport, Toronto Pearson International Airport, Calgary International Airport, and Vancouver International Airport. "
+        }
+    }
+]

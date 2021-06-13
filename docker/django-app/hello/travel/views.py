@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 
-from .models import Choice, Question
+from .models import Country, CountryRestriction
 
 
 class IndexView(generic.ListView):
@@ -12,24 +12,24 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         """Return the last five published questions."""
-        return Question.objects.order_by('-pub_date')[:5]
+        return Country.objects.order_by('-pub_date')[:5]
 
 
 class DetailView(generic.DetailView):
-    model = Question
+    model = Country
     template_name = 'travel/detail.html'
 
 
 class ResultsView(generic.DetailView):
-    model = Question
+    model = Country
     template_name = 'travel/results.html'
 
 
 def vote(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
+    question = get_object_or_404(Country, pk=question_id)
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Choice.DoesNotExist):
+    except (KeyError, CountryRestriction.DoesNotExist):
         # Redisplay the question voting form.
         return render(request, 'travel/detail.html', {
             'question': question,
