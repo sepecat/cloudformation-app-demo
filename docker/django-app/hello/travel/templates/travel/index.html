@@ -8,7 +8,7 @@
     {% if countryrestriction_list %}
       <ul>
       {% for countryrestriction in countryrestriction_list %}
-        <li><a href="{% url 'travel:detail' countryrestriction.id %}">{{ countryrestriction.name_text}} > {{ countryrestriction.restricting_country }}</a></li>
+        <li><a href="{% url 'travel:detail' countryrestriction.id %}">{{ countryrestriction.name_text}} -> {{ countryrestriction.restricting_country }}</a></li>
       {% endfor %}
       </ul>
     {% else %}

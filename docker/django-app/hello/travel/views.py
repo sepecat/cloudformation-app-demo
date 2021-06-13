@@ -1,3 +1,4 @@
+from django.forms import ModelForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -15,9 +16,19 @@ class IndexView(generic.ListView):
         return CountryRestriction.objects.order_by('restricting_country', 'name_text')
 
 
-class DetailView(generic.DetailView):
-    model = Country
-    template_name = 'travel/detail.html'
+def detail(request, countryrestriction_id):
+    instance = get_object_or_404(CountryRestriction, pk=countryrestriction_id)
+
+    class CountryRestrictionForm(ModelForm):
+        class Meta:
+            model = CountryRestriction
+            fields = [f.name for f in CountryRestriction._meta.get_fields()]
+    form = CountryRestrictionForm(instance=instance)
+    return render(
+        request,
+        'travel/detail.html',
+        {'form': form}
+    )
 
 
 class ResultsView(generic.DetailView):
