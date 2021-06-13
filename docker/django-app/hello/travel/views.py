@@ -8,11 +8,11 @@ from .models import Country, CountryRestriction
 
 class IndexView(generic.ListView):
     template_name = 'travel/index.html'
-    context_object_name = 'latest_question_list'
+    context_object_name = 'countryrestriction_list'
 
     def get_queryset(self):
-        """Return the last five published questions."""
-        return Country.objects.order_by('-pub_date')[:5]
+        """Return the list of restrictions by origin."""
+        return CountryRestriction.objects.order_by('restricting_country', 'name_text')
 
 
 class DetailView(generic.DetailView):
