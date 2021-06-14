@@ -1,27 +1,25 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Travel > Detail: {{ form.name_text.value }} -> {{ form.restricting_country.value }}</title>
-  </head>
-  <body>
-    <h1>{{ form.name_text.value }} -> {{ form.restricting_country.value }}</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>Restriction</th>
-          <th>Value</th>
-        </tr>
-      </thead>
-      <tbody>
-      {% for field in form %}
-        <tr>
-          <td>{{ field.label }}</td>
-          <td>{{ field.value|default_if_none:'' }}</td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-    <a href="{% url 'travel:index' %}">Return to index</a>
-  </body>
-</html>
+{% extends 'travel/base.html' %}
+
+{% block branding %}
+<title>TravelSafe > Detail: {{ form.name_text.value }} -> {{ form.restricting_country.value }}</title>
+{% endblock %}
+{% block content %}
+  <h1>TravelSafe > Detail: {{ form.name_text.value }} -> {{ form.restricting_country.value }}</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Restriction</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for field in form %}
+      <tr>
+        <td>{{ field.label }}</td>
+        <td>{{ field.value|default_if_none:'' }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'travel:index' %}">Return to index</a>
+{% endblock %}

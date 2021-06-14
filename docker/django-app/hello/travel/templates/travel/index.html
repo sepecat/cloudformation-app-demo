@@ -1,18 +1,17 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Travel > Index</title>
-  </head>
-  <body>
-    {% if countryrestriction_list %}
-      <ul>
-      {% for countryrestriction in countryrestriction_list %}
-        <li><a href="{% url 'travel:detail' countryrestriction.id %}">{{ countryrestriction.name_text}} -> {{ countryrestriction.restricting_country }}</a></li>
-      {% endfor %}
-      </ul>
-    {% else %}
-      <p>No information is available.</p>
-    {% endif %}
-  </body>
-</html>
+{% extends 'travel/base.html' %}
+
+{% block branding %}
+<title>TravelSafe</title>
+{% endblock %}
+{% block content %}
+  <h1>TravelSafe</h1>
+  {% if countryrestriction_list %}
+    <ul>
+    {% for countryrestriction in countryrestriction_list %}
+      <li><a href="{% url 'travel:detail' countryrestriction.id %}">{{ countryrestriction.name_text}} -> {{ countryrestriction.restricting_country }}</a></li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p>No information is available.</p>
+  {% endif %}
+{% endblock %}
