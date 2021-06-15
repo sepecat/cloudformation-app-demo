@@ -7,3 +7,7 @@
 
 # SQLite
 db.sqlite3
+
+# Static dirs (but only those auto-populated by Django)
+docker/django-app/static/admin/
+docker/django-app/static/travel/
