@@ -3,9 +3,9 @@ version: "3.9"
 
 services:
   app:
-    image: sepecat/hello-django
+    image: sepecat/hello-django:base
   web:
-    image: sepecat/hello-nginx
+    image: sepecat/hello-nginx:base
     volumes_from:
       - app:rw
     ports:

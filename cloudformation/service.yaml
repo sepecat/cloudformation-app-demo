@@ -17,7 +17,7 @@ Parameters:
     Description: A name for the app container
   AppImageUrl:
     Type: String
-    Default: 'sepecat/hello-django:latest'
+    Default: 'sepecat/hello-django:base'
     Description: The url of a docker image that contains the application process that
                  will handle the traffic for this service
   WebContainerName:
@@ -26,7 +26,7 @@ Parameters:
     Description: A name for the web server container
   WebImageUrl:
     Type: String
-    Default: 'sepecat/hello-nginx:latest'
+    Default: 'sepecat/hello-nginx:base'
     Description: The url of a docker image that contains the web server process that
                  will handle the traffic for this service
   TaskCpu:
