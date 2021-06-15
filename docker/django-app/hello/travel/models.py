@@ -2,6 +2,7 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+from django_bleach.models import BleachField
 
 
 class Country(models.Model):
@@ -23,7 +24,7 @@ class CountryRestriction(models.Model):
     banned = models.BooleanField(default=False)
     restricted = models.BooleanField(default=False)
     quarantine_days = models.IntegerField(default=0)
-    restrictions_text = models.TextField()
+    restrictions_text = BleachField()
 
     def __str__(self):
         return str(self.name_text)
