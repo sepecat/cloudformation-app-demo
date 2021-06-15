@@ -3,11 +3,11 @@ version: "3.9"
 
 services:
   app:
-    image: "sepecat/django-app:travel"
+    image: "sepecat/django-app:latest"
     ports:
       - "8000:8000"
   web:
-    image: "sepecat/django-nginx:travel"
+    image: "sepecat/django-nginx:latest"
     volumes_from:
       - app:rw
     ports:
