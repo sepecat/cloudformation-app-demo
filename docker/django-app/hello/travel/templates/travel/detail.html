@@ -1,10 +1,10 @@
 {% extends 'travel/base.html' %}
 
 {% block branding %}
-<title>TravelSafe > Detail: {{ form.name_text.value }} -> {{ form.restricting_country.value }}</title>
+<title>TravelSafe > Detail: {{ form.name_text.value|default_if_none:'Other' }} -> {{ form.restricting_country.value|default_if_none:'Other' }}</title>
 {% endblock %}
 {% block content %}
-  <h1 class="banner-text">TravelSafe > Detail: {{ form.name_text.value }} -> {{ form.restricting_country.value }}</h1>
+  <h1 class="banner-text">TravelSafe > Detail: {{ form.name_text.value|default_if_none:'Other' }} -> {{ form.restricting_country.value|default_if_none:'Other' }}</h1>
   <table>
     <thead>
       <tr>
